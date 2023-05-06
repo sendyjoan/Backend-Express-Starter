@@ -2,20 +2,28 @@ var express = require('express');
 const { User } = require('../models');
 var router = express.Router();
 
+router.get('/', async (req, res) => {
+  const users = await User.findAll();
+
+  return res.json(users);
+});
+
 router.post('/', async (req, res) => {
   
   const body = req.body;
 
-  if(!body.name || !body.email) {
-    return res.status(400).json({message: "Name and Email must be provided"});
+  if(!body.name) {
+    return res.status(400).json({message: "Name must be provided!"});
+  }else if (!body.email) {
+    return res.status(400).json({message: "Email must be provided!"})
   }
   
   const user = await User.create({
-    name: 'Sendy Joan',
-    email: 'sendy@mail.com',
+    name: body.name,
+    email: body.email,
   });
 
-  return res.json(user);
+  return res.json({message: "Success Add User!", data: user});
 });
 
 module.exports = router;
