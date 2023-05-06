@@ -1,20 +1,21 @@
 var express = require('express');
+const { User } = require('../models');
 var router = express.Router();
 
-/* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
+router.post('/', async (req, res) => {
+  
+  const body = req.body;
 
-// GET USER
-router.get('/', (req, res) => {
-  return res.json({
-    id: 1,
-    name: 'Sendy Joan Kevin',
-    role: 'admin',
+  if(!body.name || !body.email) {
+    return res.status(400).json({message: "Name and Email must be provided"});
+  }
+  
+  const user = await User.create({
+    name: 'Sendy Joan',
+    email: 'sendy@mail.com',
   });
+
+  return res.json(user);
 });
-
-
 
 module.exports = router;
