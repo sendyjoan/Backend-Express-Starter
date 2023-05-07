@@ -18,15 +18,15 @@ module.exports = async (req, res) => {
     }
 
     // Verification Email
-    const isEmailUsed = await User.findOne({
-        email: body.email
+    const isEmailUsed = await User.findOne({where: 
+        {email: body.email},
     });
 
     if (isEmailUsed) {
         return res.status(400).json({message: "Email already taken!"});
     }
 
-    const password = await bcrypt.hashSync(body.password, 10);
+    const password = bcrypt.hashSync(body.password, 10);
 
     const user = await User.create({
         name: body.name,
