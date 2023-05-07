@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
     }
 
     const token = jwt.sign({data}, "hashing", {
-        expiresIn: "60s",
+        expiresIn: "600s",
     });
 
     return res.json(token);
